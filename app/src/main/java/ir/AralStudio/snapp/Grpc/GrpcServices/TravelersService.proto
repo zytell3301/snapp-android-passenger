@@ -1,6 +1,9 @@
 syntax = "proto3";
 package TravelersService;
 option go_package = "./GrpcServices";
+option java_package = "ir.AralStudio.snapp.Grpc.GrpcServices";
+option java_outer_classname = "TravelersServiceImplementation";
+option java_multiple_files = true;
 
 service TravelersService {
   rpc GetNearbyDrivers(location) returns (GetNearbyDriversResponse);
