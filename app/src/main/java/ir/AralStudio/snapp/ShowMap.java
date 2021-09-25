@@ -45,7 +45,8 @@ public class ShowMap extends AppCompatActivity {
 
         setContentView(R.layout.activity_show_map);
 
-        Dexter.withContext(getApplicationContext()).withPermissions(Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.WRITE_EXTERNAL_STORAGE)
+        Dexter.withContext(getApplicationContext()).withPermissions(Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 .withListener(new MultiplePermissionsListener() {
                     @Override
                     public void onPermissionsChecked(MultiplePermissionsReport multiplePermissionsReport) {
@@ -65,9 +66,6 @@ public class ShowMap extends AppCompatActivity {
         mapController = map.getController();
         mapController.setZoom((long)15);
         map.setTilesScaledToDpi(true);
-        /*needs to be checked*/
-        //map.getZoomController().activate();
-
 
         map.setMultiTouchControls(true);
         GeoPoint pointStart = new GeoPoint(35.7448416,51.3775099,17);
