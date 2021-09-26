@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Snapp</string>
+    <string name="RegPref">RegisterPreferences</string>
+    <string name="PrefName">Name</string>
+    <string name="PrefFamily">Family</string>
+    <string name="PrefPhone">PhoneNumber</string>
+    <string name="PrefIsReg">IsRegistered</string>
 </resources>

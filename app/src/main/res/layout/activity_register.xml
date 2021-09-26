@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/register_background">
+
+    <LinearLayout
+        android:id="@+id/layoutName"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_centerVertical="true"
+        android:background="@drawable/register_layout_background"
+        android:paddingBottom="50dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:layout_marginTop="30dp"
+        android:layout_marginRight="15dp"
+        android:text="نام خود را به انگلیسی وارد کنید"
+        android:textColor="@color/white"
+        />
+
+    <EditText
+        android:id="@+id/txtName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="15dp"
+        android:layout_marginVertical="20dp"
+        android:background="@color/white"
+        android:inputType="textPersonName"
+        android:textSize="25sp"
+        android:textColor="@color/black"
+        android:textDirection="rtl"/>
+
+    <Button
+        android:id="@+id/btnNextName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:layout_marginRight="15dp"
+        android:text="بعدی"
+        android:textSize="25sp"
+        android:onClick="onBtnClicked"/>
+
+</LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layoutFamily"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:background="@drawable/register_layout_background"
+        android:paddingBottom="50dp"
+        android:visibility="gone">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:layout_marginTop="30dp"
+        android:layout_marginRight="15dp"
+        android:text="نام خانوادگی خود را به انگلیسی وارد کنید"
+        android:textColor="@color/white"
+        />
+
+    <EditText
+        android:id="@+id/txtFamilyName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="15dp"
+        android:layout_marginVertical="20dp"
+        android:background="@color/white"
+        android:inputType="textPersonName"
+        android:textSize="25sp"
+        android:textColor="@color/black"
+        android:textDirection="rtl"/>
+
+        <Button
+            android:id="@+id/btnNext2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginRight="15dp"
+            android:text="بعدی"
+            android:textSize="25sp"
+            android:onClick="onBtnClicked"/>
+
+</LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layoutNumber"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:background="@drawable/register_layout_background"
+        android:paddingBottom="50dp"
+        android:visibility="gone">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:layout_marginTop="30dp"
+        android:layout_marginRight="15dp"
+        android:text="شماره موبایل خود را وارد کنید"
+        android:textColor="@color/white" />
+
+    <EditText
+        android:id="@+id/txtPhoneNumber"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="25sp"
+        android:layout_marginHorizontal="15dp"
+        android:layout_marginVertical="20dp"
+        android:background="@color/white"
+        android:inputType="phone"
+        android:textColor="@color/black"
+        />
+
+    <Button
+        android:id="@+id/btnRegister"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:layout_marginRight="15dp"
+        android:text="تایید"
+        android:textSize="25sp"
+        android:onClick="onBtnClicked"/>
+</LinearLayout>
+
+</RelativeLayout>
