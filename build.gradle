@@ -34,19 +34,3 @@ allprojects {
 //task clean(type: Delete) {
 //    delete rootProject.buildDir
 //}
-
-protobuf {
-    protoc {
-        artifact = "com.google.protobuf:protoc:3.2.0"
-    }
-    plugins {
-        grpc {
-            artifact = 'io.grpc:protoc-gen-grpc-java:1.4.0'
-        }
-    }
-    generateProtoTasks {
-        all()*.plugins {
-            grpc {}
-        }
-    }
-}

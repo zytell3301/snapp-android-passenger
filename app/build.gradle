@@ -1,6 +1,6 @@
 plugins {
     id 'com.android.application'
-//    id "com.google.protobuf" version "0.8.17"
+    id "com.google.protobuf"
 }
 
 android {
@@ -51,4 +51,20 @@ dependencies {
     compileOnly 'org.apache.tomcat:annotations-api:6.0.53'
     implementation 'com.spoton:nats-android:2.4.6'
 
+}
+
+protobuf {
+    protoc {
+        artifact = "com.google.protobuf:protoc:3.2.0"
+    }
+    plugins {
+        grpc {
+            artifact = 'io.grpc:protoc-gen-grpc-java:1.4.0'
+        }
+    }
+    generateProtoTasks {
+        all()*.plugins {
+            grpc {}
+        }
+    }
 }
