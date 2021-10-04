@@ -1,6 +1,5 @@
 package ir.AralStudio.snapp.Entry;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
@@ -8,12 +7,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.PersistableBundle;
-import android.preference.Preference;
 import android.widget.Toast;
 
 import ir.AralStudio.snapp.R;
-import ir.AralStudio.snapp.ShowMap;
+import ir.AralStudio.snapp.MapLayout.ShowMap;
 
 public class SplashScreen extends AppCompatActivity {
 

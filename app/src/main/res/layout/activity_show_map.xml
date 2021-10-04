@@ -1,11 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    <RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ShowMap">
+    tools:context=".MapLayout.ShowMap">
+
+<!--    <androidx.drawerlayout.widget.DrawerLayout-->
+<!--        xmlns:android="https://schemas.android.com/apk/res/android"-->
+<!--        xmlns:app="http://schemas.android.com/apk/res-auto"-->
+<!--        xmlns:tools="http://schemas.android.com/tools"-->
+<!--        android:id="@+id/drawer_layout"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:fitsSystemWindows="true"-->
+<!--        tools:openDrawer="start" >-->
+<!--    </androidx.drawerlayout.widget.DrawerLayout>-->
 
     <org.osmdroid.views.MapView
         android:id="@+id/mapView"
@@ -13,17 +24,66 @@
         android:layout_height="match_parent"
         android:clickable="true"
         android:focusable="true"
-        android:visibility="visible">
+        android:visibility="visible"
+        />
 
-    </org.osmdroid.views.MapView>
+    <ImageView
+        android:id="@+id/imgFakeMark"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@mipmap/map_origin"
+        android:layout_centerInParent="true" />
 
     <Button
         android:id="@+id/btnMarkerInsert"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="تایید"
-        app:layout_constraintBaseline_toBottomOf="@id/mapView"
-        />
+        android:layout_alignBottom="@id/mapView"
+        android:layout_centerHorizontal="true"
+        android:background="#00980F"
+        style="@style/CardView"
+        android:onClick="onCommitBtnClicked"
+        android:tag="startPoint"
+        android:text="انتخاب مبدا"
+        android:textSize="20sp"
+        android:layout_marginBottom="20dp"/>
+
+    <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/LayoutRequest"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="#C6E1B8"
+        style="@style/CardView"
+        android:layout_marginHorizontal="20dp"
+        android:layout_centerHorizontal="true"
+        android:layout_alignBottom="@id/mapView"
+        android:layout_marginBottom="20dp">
+
+        <TextView
+            android:id="@+id/txtShowPrice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:background="#7DF15D"
+            style="@style/CardView"
+            android:layout_gravity="center"
+            android:layout_marginVertical="10dp"
+            android:text="هزینه سفر : 270000"
+            android:textSize="25sp"
+            android:textAlignment="center"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="درخواست اسنپ"
+            android:layout_gravity="center"
+            android:layout_marginVertical="10dp"
+            android:background="@mipmap/btn_commit_back"
+            android:textSize="25sp"
+            android:onClick="onRequestBtnClicked"/>
+    </LinearLayout>
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</RelativeLayout>

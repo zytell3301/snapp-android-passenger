@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    tools:context=".MapLayout.RequestSnapp"
+    android:background="@color/white">
+
+    <pl.droidsonroids.gif.GifImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@raw/waiting_car_day"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="در حال یافتن نزدیک ترین راننده..."
+        android:gravity="center"
+        android:layout_alignBottom="@+id/waitGif"
+        android:textSize="25sp"
+        android:textColor="@color/black" />
+
+    <Button
+        android:id="@+id/btnCancelRequest"
+        android:layout_width="match_parent"
+        android:layout_marginHorizontal="50dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginTop="30dp"
+        android:text="لغو سفر"
+        android:textSize="25sp"
+        />
+
+</LinearLayout>
