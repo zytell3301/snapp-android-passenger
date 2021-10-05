@@ -5,4 +5,5 @@
     <string name="PrefFamily">Family</string>
     <string name="PrefPhone">PhoneNumber</string>
     <string name="PrefIsReg">IsRegistered</string>
+    <string name="Token">Token</string>
 </resources>

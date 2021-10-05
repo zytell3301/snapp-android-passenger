@@ -9,11 +9,13 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.widget.Toast;
 
+import ir.AralStudio.snapp.Grpc.AuthGrpcServices.Token;
 import ir.AralStudio.snapp.R;
 import ir.AralStudio.snapp.MapLayout.ShowMap;
 
 public class SplashScreen extends AppCompatActivity {
 
+public static String TOKEN;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +32,7 @@ public class SplashScreen extends AppCompatActivity {
                 if (preferences.getBoolean(getString(R.string.PrefIsReg),false)) {
 
                     String name = preferences.getString(getString(R.string.PrefName), null);
+                    TOKEN = preferences.getString(getString(R.string.Token),null);
                     Toast.makeText(SplashScreen.this,"سلام " + name, Toast.LENGTH_LONG).show();
                     intent = new Intent(SplashScreen.this, ShowMap.class);
 

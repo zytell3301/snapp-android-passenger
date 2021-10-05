@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.util.SparseLongArray;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -26,8 +27,6 @@ import org.osmdroid.views.CustomZoomButtonsController;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Marker;
 
-import java.lang.reflect.Array;
-import java.util.Collections;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -35,8 +34,12 @@ import java.util.TimerTask;
 import io.grpc.Grpc;
 import io.grpc.InsecureChannelCredentials;
 import io.grpc.ManagedChannel;
-import ir.AralStudio.snapp.Grpc.GrpcServices.TravelersServiceGrpc;
+import io.grpc.Metadata;
+import io.grpc.stub.MetadataUtils;
+import ir.AralStudio.snapp.Entry.SplashScreen;
+import ir.AralStudio.snapp.Grpc.AuthGrpcServices.Token;
 import ir.AralStudio.snapp.Grpc.TravelersService.GetNearbyDriversResponse;
+import ir.AralStudio.snapp.Grpc.TravelersService.TravelersServiceGrpc;
 import ir.AralStudio.snapp.Grpc.TravelersService.location;
 import ir.AralStudio.snapp.R;
 
@@ -50,15 +53,19 @@ public class ShowMap extends AppCompatActivity {
     Timer timer;
     ManagedChannel channel;
     TravelersServiceGrpc.TravelersServiceBlockingStub TravelersService;
-
+    Metadata header;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        header = new Metadata();
+        Metadata.Key<String> key =
+                Metadata.Key.of("token", Metadata.ASCII_STRING_MARSHALLER);
+        header.put(key, SplashScreen.TOKEN);
+
         channel = Grpc.newChannelBuilder("192.168.1.200:6166", InsecureChannelCredentials.create()).build();
         TravelersService = TravelersServiceGrpc.newBlockingStub(channel);
-
 
         Context ctx = getApplicationContext();
         Configuration.getInstance().load(ctx, PreferenceManager.getDefaultSharedPreferences(ctx));
@@ -123,7 +130,7 @@ public class ShowMap extends AppCompatActivity {
                 findViewById(R.id.LayoutRequest).setVisibility(View.VISIBLE);
 
                 TextView txtShowPrice = findViewById(R.id.txtShowPrice);
-                txtShowPrice.setText("هزینه سفر : " + " " + " ریال");
+                txtShowPrice.setText("هزینه سفر : " + priceCalculator() + " ریال");
 
             } else {
                 Toast.makeText(this, "نقطه شروع و پایان نمیتوانند یکسان باشند", Toast.LENGTH_LONG).show();
@@ -132,27 +139,27 @@ public class ShowMap extends AppCompatActivity {
         }
     }
 
-//    private long priceCalculator() {
-//        double lat = Math.abs(endPoint.getLatitude() - startPoint.getLatitude());
-//        double lon = Math.abs(endPoint.getLongitude() - startPoint.getLongitude());
-//        long price = (long) (Math.pow(Math.pow(lat,2) + Math.pow(lon,2),0.5) * 350000);
-//
-//         if (price < 2000)
-//         {
-//             price = 2000;
-//         }
-//
-//        if((price / 100) % 10 >= 5)
-//        {
-//            price = ((price / 100) + 1) * 100;
-//        }
-//        else if (price % 1000 == 0){
-//            //price will not change
-//        }else {
-//            price = (((price / 1000) * 10) + 5) * 100;
-//        }
-//      return (price * 10);
-//    }
+    private long priceCalculator() {
+        double lat = Math.abs(endPoint.getLatitude() - startPoint.getLatitude());
+        double lon = Math.abs(endPoint.getLongitude() - startPoint.getLongitude());
+        long price = (long) (Math.pow(Math.pow(lat,2) + Math.pow(lon,2),0.5) * 350000);
+
+         if (price < 2000)
+         {
+             price = 2000;
+         }
+
+        if((price / 100) % 10 >= 5)
+        {
+            price = ((price / 100) + 1) * 100;
+        }
+        else if (price % 1000 == 0){
+            //price will not change
+        }else {
+            price = (((price / 1000) * 10) + 5) * 100;
+        }
+      return (price * 10);
+    }
 
     public void onRequestBtnClicked(View view)
     {
@@ -170,23 +177,22 @@ public class ShowMap extends AppCompatActivity {
             @Override
             public void run() {
                 try {
-                    location location = ir.AralStudio.snapp.Grpc.TravelersService.location.newBuilder().setX(1).setY(1).build();
+                    location location = ir.AralStudio.snapp.Grpc.TravelersService.location.newBuilder().setX(35.7448416).setY(51.3775099).build();
+                    TravelersService = MetadataUtils.attachHeaders(TravelersService, header);
                     GetNearbyDriversResponse drivers = TravelersService.getNearbyDrivers(location);
 
-                    for (int count = 0; count < drivers.getUserCount(); count++) {
+                    for (int count = 0; count < drivers.getDriverCount(); count++) {
 
                         double lat,lon;
-                        drivers.getUser().get
-
-
+                        lon = drivers.getDriver(count).getLocation().getX();
+                        lat = drivers.getDriver(count).getLocation().getY();
 
                         Marker tempMark = new Marker(map);
                         tempMark.setPosition(new GeoPoint(lat,lon));
                         tempMark.setAnchor(0.5f,0.5f);
                         tempMark.setIcon(getDrawable(R.mipmap.driver_moppet));
 
-                        driversLocation.add();
-                        //String name = Test.getUser(count).getDriverDetails().getName();
+                        map.getOverlays().add(tempMark);
                     }
                 } catch (Exception e) {
                     //Toast.makeText(ShowMap.this, "ارتباط با سرور برقرار نشد...", Toast.LENGTH_LONG).show();

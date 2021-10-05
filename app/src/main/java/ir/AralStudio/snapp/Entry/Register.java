@@ -10,28 +10,23 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
 
-import java.net.Authenticator;
 import java.text.Bidi;
 
 import io.grpc.Grpc;
 import io.grpc.InsecureChannelCredentials;
 import io.grpc.ManagedChannel;
 import ir.AralStudio.snapp.Grpc.AuthGrpcServices.AuthGrpc;
-import ir.AralStudio.snapp.Grpc.AuthGrpcServices.Credentials;
+import ir.AralStudio.snapp.Grpc.AuthGrpcServices.Token;
 import ir.AralStudio.snapp.Grpc.AuthGrpcServices.driver;
 import ir.AralStudio.snapp.Grpc.AuthGrpcServices.user;
-import ir.AralStudio.snapp.Grpc.GrpcServices.TravelersServiceGrpc;
 import ir.AralStudio.snapp.R;
-import retrofit2.http.GET;
 
 public class Register extends AppCompatActivity {
 
@@ -40,7 +35,6 @@ public class Register extends AppCompatActivity {
     Animation animation;
     Spinner dropDownPhone;
     String name, familyName, phoneNumber,passWord;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -159,7 +153,7 @@ public class Register extends AppCompatActivity {
             driver nameFL = driver.newBuilder().setName(name).setLastname(familyName).build();
             user newPassenger = user.newBuilder().setPassword(passWord).setPhone(phoneNumber).setDriverDetails(nameFL).build();
 
-            AuthenticationGrp.newAccount(newPassenger);
+            Token myToken = AuthenticationGrp.newAccount(newPassenger);
 
             SharedPreferences preferences = getSharedPreferences(getString(R.string.RegPref), Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = preferences.edit();
@@ -167,6 +161,7 @@ public class Register extends AppCompatActivity {
             editor.putString(getString(R.string.PrefName), name);
             editor.putString(getString(R.string.PrefFamily), familyName);
             editor.putString(getString(R.string.PrefPhone), phoneNumber);
+            editor.putString(getString(R.string.Token), myToken.getToken());
             editor.putBoolean(getString(R.string.PrefIsReg), true);
             editor.apply();
 
