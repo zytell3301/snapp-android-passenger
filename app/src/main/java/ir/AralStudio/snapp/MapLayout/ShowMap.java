@@ -26,6 +26,7 @@ import org.osmdroid.views.CustomZoomButtonsController;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Marker;
 
+import java.lang.reflect.Array;
 import java.util.Collections;
 import java.util.List;
 import java.util.Timer;
@@ -34,9 +35,9 @@ import java.util.TimerTask;
 import io.grpc.Grpc;
 import io.grpc.InsecureChannelCredentials;
 import io.grpc.ManagedChannel;
-import ir.AralStudio.snapp.Grpc.GrpcServices.GetNearbyDriversResponse;
 import ir.AralStudio.snapp.Grpc.GrpcServices.TravelersServiceGrpc;
-import ir.AralStudio.snapp.Grpc.GrpcServices.location;
+import ir.AralStudio.snapp.Grpc.TravelersService.GetNearbyDriversResponse;
+import ir.AralStudio.snapp.Grpc.TravelersService.location;
 import ir.AralStudio.snapp.R;
 
 public class ShowMap extends AppCompatActivity {
@@ -45,7 +46,7 @@ public class ShowMap extends AppCompatActivity {
     private IMapController mapController;
     GeoPoint startPoint, endPoint;
     Marker startMarker,endMarker;
-    Marker driversLocation[];
+    List<Marker> driversLocation;
     Timer timer;
     ManagedChannel channel;
     TravelersServiceGrpc.TravelersServiceBlockingStub TravelersService;
@@ -54,7 +55,6 @@ public class ShowMap extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
 
         channel = Grpc.newChannelBuilder("192.168.1.200:6166", InsecureChannelCredentials.create()).build();
         TravelersService = TravelersServiceGrpc.newBlockingStub(channel);
@@ -70,6 +70,7 @@ public class ShowMap extends AppCompatActivity {
                 .withListener(new MultiplePermissionsListener() {
                     @Override
                     public void onPermissionsChecked(MultiplePermissionsReport multiplePermissionsReport) {
+
                     }
 
                     @Override
@@ -90,7 +91,7 @@ public class ShowMap extends AppCompatActivity {
         endMarker = new Marker(map);
         endMarker.setAnchor(0.5f,0.5f);
 
-        GeoPoint centerPoint = new GeoPoint(35.7448416, 51.3775099, 17);
+        GeoPoint centerPoint = new GeoPoint(35.7448416, 51.3775099);
         mapController.animateTo(centerPoint);
     }
 
@@ -104,7 +105,7 @@ public class ShowMap extends AppCompatActivity {
             startMarker.setPosition(tmpPoint);
             startMarker.setIcon(getDrawable(R.mipmap.map_origin));
             mapController.animateTo(new GeoPoint(startPoint.getLatitude() - 0.002,
-                    startPoint.getLongitude() + 0.002,startPoint.getAltitude()));
+                    startPoint.getLongitude() + 0.002));
             map.getOverlays().add(startMarker);
 
             findViewById(R.id.imgFakeMark).setBackground(getDrawable(R.mipmap.map_destination));
@@ -122,7 +123,7 @@ public class ShowMap extends AppCompatActivity {
                 findViewById(R.id.LayoutRequest).setVisibility(View.VISIBLE);
 
                 TextView txtShowPrice = findViewById(R.id.txtShowPrice);
-                txtShowPrice.setText("هزینه سفر : " + priceCalculator() + " ریال");
+                txtShowPrice.setText("هزینه سفر : " + " " + " ریال");
 
             } else {
                 Toast.makeText(this, "نقطه شروع و پایان نمیتوانند یکسان باشند", Toast.LENGTH_LONG).show();
@@ -131,27 +132,27 @@ public class ShowMap extends AppCompatActivity {
         }
     }
 
-    private long priceCalculator() {
-        double lat = Math.abs(endPoint.getLatitude() - startPoint.getLatitude());
-        double lon = Math.abs(endPoint.getLongitude() - startPoint.getLongitude());
-        long price = (long) (Math.pow(Math.pow(lat,2) + Math.pow(lon,2),0.5) * 350000);
-
-         if (price < 2000)
-         {
-             price = 2000;
-         }
-
-        if((price / 100) % 10 >= 5)
-        {
-            price = ((price / 100) + 1) * 100;
-        }
-        else if (price % 1000 == 0){
-            //price will not change
-        }else {
-            price = (((price / 1000) * 10) + 5) * 100;
-        }
-      return (price * 10);
-    }
+//    private long priceCalculator() {
+//        double lat = Math.abs(endPoint.getLatitude() - startPoint.getLatitude());
+//        double lon = Math.abs(endPoint.getLongitude() - startPoint.getLongitude());
+//        long price = (long) (Math.pow(Math.pow(lat,2) + Math.pow(lon,2),0.5) * 350000);
+//
+//         if (price < 2000)
+//         {
+//             price = 2000;
+//         }
+//
+//        if((price / 100) % 10 >= 5)
+//        {
+//            price = ((price / 100) + 1) * 100;
+//        }
+//        else if (price % 1000 == 0){
+//            //price will not change
+//        }else {
+//            price = (((price / 1000) * 10) + 5) * 100;
+//        }
+//      return (price * 10);
+//    }
 
     public void onRequestBtnClicked(View view)
     {
@@ -169,18 +170,29 @@ public class ShowMap extends AppCompatActivity {
             @Override
             public void run() {
                 try {
-                    location location = ir.AralStudio.snapp.Grpc.GrpcServices.location.newBuilder().setX(1).setY(1).build();
-                    GetNearbyDriversResponse Test = TravelersService.getNearbyDrivers(location);
+                    location location = ir.AralStudio.snapp.Grpc.TravelersService.location.newBuilder().setX(1).setY(1).build();
+                    GetNearbyDriversResponse drivers = TravelersService.getNearbyDrivers(location);
 
-                    for (int count = 0; count < Test.getUserCount(); count++) {
+                    for (int count = 0; count < drivers.getUserCount(); count++) {
 
+                        double lat,lon;
+                        drivers.getUser().get
+
+
+
+                        Marker tempMark = new Marker(map);
+                        tempMark.setPosition(new GeoPoint(lat,lon));
+                        tempMark.setAnchor(0.5f,0.5f);
+                        tempMark.setIcon(getDrawable(R.mipmap.driver_moppet));
+
+                        driversLocation.add();
                         //String name = Test.getUser(count).getDriverDetails().getName();
                     }
                 } catch (Exception e) {
-                    Toast.makeText(ShowMap.this, "ارتباط با سرور برقرار نشد...", Toast.LENGTH_LONG).show();
+                    //Toast.makeText(ShowMap.this, "ارتباط با سرور برقرار نشد...", Toast.LENGTH_LONG).show();
                 }
             }
-        }, 0, 5000);
+        }, 1000, 5000);
     }
 
     @Override

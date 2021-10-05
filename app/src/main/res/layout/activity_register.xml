@@ -1,85 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/register_background">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/white"
+    android:orientation="vertical">
 
     <LinearLayout
         android:id="@+id/layoutName"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_centerVertical="true"
-        android:background="@drawable/register_layout_background"
-        android:paddingBottom="50dp">
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="right"
-        android:layout_marginTop="30dp"
-        android:layout_marginRight="15dp"
-        android:text="نام خود را به انگلیسی وارد کنید"
-        android:textColor="@color/white"
-        />
-
-    <EditText
-        android:id="@+id/txtName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="15dp"
-        android:layout_marginVertical="20dp"
-        android:background="@color/white"
-        android:inputType="textPersonName"
-        android:textSize="25sp"
-        android:textColor="@color/black"
-        android:textDirection="rtl"/>
-
-    <Button
-        android:id="@+id/btnNextName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="right"
-        android:layout_marginRight="15dp"
-        android:text="بعدی"
-        android:textSize="25sp"
-        android:onClick="onBtnClicked"/>
-
-</LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/layoutFamily"
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:background="@drawable/register_layout_background"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:paddingBottom="50dp">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="15dp"
+            android:layout_marginVertical="20dp"
+            android:background="#B1B1B1"
+            android:hint="نام خود را به فارسی وارد کنید"
+            android:inputType="textPersonName"
+            android:textColorHint="@color/black"
+            app:hintTextColor="#005EFF"
+
+            >
+            <!--this is the actual edit text which takes the input-->
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/txtName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableEnd="@drawable/pencil"
+                android:textColor="@color/black"
+                android:textDirection="rtl"
+                android:textSize="20sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/btnNextName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginRight="15dp"
+            android:onClick="onBtnClicked"
+            android:text="بعدی"
+            android:textSize="25sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layoutFamily"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:background="@color/white"
+        android:orientation="vertical"
         android:paddingBottom="50dp"
         android:visibility="gone">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="right"
-        android:layout_marginTop="30dp"
-        android:layout_marginRight="15dp"
-        android:text="نام خانوادگی خود را به انگلیسی وارد کنید"
-        android:textColor="@color/white"
-        />
+        <com.google.android.material.textfield.TextInputLayout
+            android:background="#B1B1B1"
+            app:hintTextColor="#005EFF"
 
-    <EditText
-        android:id="@+id/txtFamilyName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="15dp"
-        android:layout_marginVertical="20dp"
-        android:background="@color/white"
-        android:inputType="textPersonName"
-        android:textSize="25sp"
-        android:textColor="@color/black"
-        android:textDirection="rtl"/>
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableEnd="@drawable/pencil"
+            android:layout_marginHorizontal="15dp"
+            android:layout_marginVertical="20dp"
+            android:inputType="textPersonName"
+            android:textColorHint="@color/black"
+            android:hint="نام خانوادگی خود را به فارسی وارد کنید">
+            <!--this is the actual edit text which takes the input-->
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/txtFamilyName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textDirection="rtl"
+                android:textColor="@color/black"
+                android:textSize="20sp"/>
+        </com.google.android.material.textfield.TextInputLayout>
 
         <Button
             android:id="@+id/btnNext2"
@@ -87,52 +90,115 @@
             android:layout_height="wrap_content"
             android:layout_gravity="right"
             android:layout_marginRight="15dp"
+            android:onClick="onBtnClicked"
             android:text="بعدی"
-            android:textSize="25sp"
-            android:onClick="onBtnClicked"/>
+            android:textSize="25sp" />
 
-</LinearLayout>
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/layoutNumber"
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:background="@drawable/register_layout_background"
+        android:background="@color/white"
+        android:orientation="vertical"
         android:paddingBottom="50dp"
         android:visibility="gone">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="right"
-        android:layout_marginTop="30dp"
-        android:layout_marginRight="15dp"
-        android:text="شماره موبایل خود را وارد کنید"
-        android:textColor="@color/white" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
-    <EditText
-        android:id="@+id/txtPhoneNumber"
+
+            <Spinner
+                android:id="@+id/dropDownPhone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="20dp"
+                android:background="@color/black"
+                android:spinnerMode="dropdown" />
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:background="#B1B1B1"
+                app:hintTextColor="#005EFF"
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="15dp"
+                android:layout_marginVertical="20dp"
+                android:layout_weight="1"
+                android:textColorHint="@color/black"
+                android:hint="شماره خود را وارد کنید">
+                <!--this is the actual edit text which takes the input-->
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txtPhoneNumber"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableEnd="@drawable/phone"
+                    android:textDirection="ltr"
+                    android:textSize="20sp"
+                    android:textColor="@color/black"
+                    android:inputType="phone"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btnNext3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginRight="15dp"
+            android:onClick="onBtnClicked"
+            android:text="بعدی"
+            android:textSize="25sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layoutPassWord"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="25sp"
-        android:layout_marginHorizontal="15dp"
-        android:layout_marginVertical="20dp"
+        android:layout_centerVertical="true"
         android:background="@color/white"
-        android:inputType="phone"
-        android:textColor="@color/black"
-        />
+        android:orientation="vertical"
+        android:paddingBottom="50dp"
+        android:visibility="gone">
 
-    <Button
-        android:id="@+id/btnRegister"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="right"
-        android:layout_marginRight="15dp"
-        android:text="تایید"
-        android:textSize="25sp"
-        android:onClick="onBtnClicked"/>
-</LinearLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            android:background="#B1B1B1"
+            app:hintTextColor="#005EFF"
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="15dp"
+            android:layout_marginVertical="20dp"
+            app:endIconMode="password_toggle"
+            android:textColorHint="@color/black"
+            android:hint="رمز خود را وارد کنید"
+            app:counterEnabled="true">
+            <!--this is the actual edit text which takes the input-->
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/txtPassWord"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textDirection="rtl"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:inputType="textPassword"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/btnRegister"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginRight="15dp"
+            android:onClick="onBtnClicked"
+            android:text="تایید"
+            android:textSize="25sp" />
+    </LinearLayout>
 
 </RelativeLayout>
