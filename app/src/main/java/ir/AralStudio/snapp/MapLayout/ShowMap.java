@@ -7,10 +7,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.util.Log;
-import android.util.SparseLongArray;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,6 +30,7 @@ import org.osmdroid.views.overlay.Marker;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.jar.Attributes;
 
 import io.grpc.Grpc;
 import io.grpc.InsecureChannelCredentials;
@@ -37,18 +38,24 @@ import io.grpc.ManagedChannel;
 import io.grpc.Metadata;
 import io.grpc.stub.MetadataUtils;
 import ir.AralStudio.snapp.Entry.SplashScreen;
-import ir.AralStudio.snapp.Grpc.AuthGrpcServices.Token;
 import ir.AralStudio.snapp.Grpc.TravelersService.GetNearbyDriversResponse;
 import ir.AralStudio.snapp.Grpc.TravelersService.TravelersServiceGrpc;
+import ir.AralStudio.snapp.Grpc.TravelersService.driver;
 import ir.AralStudio.snapp.Grpc.TravelersService.location;
 import ir.AralStudio.snapp.R;
 
 public class ShowMap extends AppCompatActivity {
 
+    public static boolean IsAccepted = false;
+    public static String DriverName = "";
+    public static String DriverPlate = "";
+
     private MapView map;
     private IMapController mapController;
-    GeoPoint startPoint, endPoint;
-    Marker startMarker,endMarker;
+    public static GeoPoint startPoint, endPoint;
+    public static String PriceShow;
+
+    Marker startMarker, endMarker;
     List<Marker> driversLocation;
     Timer timer;
     ManagedChannel channel;
@@ -94,9 +101,9 @@ public class ShowMap extends AppCompatActivity {
         map.setMultiTouchControls(true);
 
         startMarker = new Marker(map);
-        startMarker.setAnchor(0.5f,0.5f);
+        startMarker.setAnchor(0.5f, 0.5f);
         endMarker = new Marker(map);
-        endMarker.setAnchor(0.5f,0.5f);
+        endMarker.setAnchor(0.5f, 0.5f);
 
         GeoPoint centerPoint = new GeoPoint(35.7448416, 51.3775099);
         mapController.animateTo(centerPoint);
@@ -130,7 +137,10 @@ public class ShowMap extends AppCompatActivity {
                 findViewById(R.id.LayoutRequest).setVisibility(View.VISIBLE);
 
                 TextView txtShowPrice = findViewById(R.id.txtShowPrice);
-                txtShowPrice.setText("هزینه سفر : " + priceCalculator() + " ریال");
+
+                PriceShow = String.valueOf(priceCalculator());
+
+                txtShowPrice.setText("هزینه سفر : " + PriceShow + " ریال");
 
             } else {
                 Toast.makeText(this, "نقطه شروع و پایان نمیتوانند یکسان باشند", Toast.LENGTH_LONG).show();
@@ -142,28 +152,24 @@ public class ShowMap extends AppCompatActivity {
     private long priceCalculator() {
         double lat = Math.abs(endPoint.getLatitude() - startPoint.getLatitude());
         double lon = Math.abs(endPoint.getLongitude() - startPoint.getLongitude());
-        long price = (long) (Math.pow(Math.pow(lat,2) + Math.pow(lon,2),0.5) * 350000);
+        long price = (long) (Math.pow(Math.pow(lat, 2) + Math.pow(lon, 2), 0.5) * 350000);
 
-         if (price < 2000)
-         {
-             price = 2000;
-         }
-
-        if((price / 100) % 10 >= 5)
-        {
-            price = ((price / 100) + 1) * 100;
+        if (price < 2000) {
+            price = 2000;
         }
-        else if (price % 1000 == 0){
+
+        if ((price / 100) % 10 >= 5) {
+            price = ((price / 100) + 1) * 100;
+        } else if (price % 1000 == 0) {
             //price will not change
-        }else {
+        } else {
             price = (((price / 1000) * 10) + 5) * 100;
         }
-      return (price * 10);
+        return (price * 10);
     }
 
-    public void onRequestBtnClicked(View view)
-    {
-        Intent intent = new Intent(this,RequestSnapp.class);
+    public void onRequestBtnClicked(View view) {
+        Intent intent = new Intent(this, RequestSnapp.class);
         startActivity(intent);
     }
 
@@ -171,25 +177,42 @@ public class ShowMap extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
+        if (IsAccepted == true) {
+            TextView _txtPlate = findViewById(R.id.txtPlate);
+            ImageView _imgDriver = findViewById(R.id.imgDriver);
+            TextView _txtDriverName = findViewById(R.id.txtDriverName);
+            TextView _txtPriceShow2 = findViewById(R.id.txtShowPrice2);
+            LinearLayout _layout_driver = findViewById(R.id.LayoutDriverDetail);
+
+            _txtPlate.setText("پلاک : " + DriverPlate);
+            _txtDriverName.setText("نام راننده : " + DriverName);
+            _txtPriceShow2.setText("هزینه سفر : " + PriceShow + " ریال");
+            _imgDriver.setBackground(getDrawable(R.mipmap.avatar_place_holder));
+            _layout_driver.setVisibility(View.VISIBLE);
+            findViewById(R.id.LayoutRequest).setVisibility(View.GONE);
+
+            IsAccepted = false;
+        }
+
         timer = new Timer();
 
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
                 try {
-                    location location = ir.AralStudio.snapp.Grpc.TravelersService.location.newBuilder().setX(35.7448416).setY(51.3775099).build();
+                    location location = ir.AralStudio.snapp.Grpc.TravelersService.location.newBuilder().setX(51.3775099).setY(35.7448416).build();
                     TravelersService = MetadataUtils.attachHeaders(TravelersService, header);
                     GetNearbyDriversResponse drivers = TravelersService.getNearbyDrivers(location);
 
                     for (int count = 0; count < drivers.getDriverCount(); count++) {
 
-                        double lat,lon;
+                        double lat, lon;
                         lon = drivers.getDriver(count).getLocation().getX();
                         lat = drivers.getDriver(count).getLocation().getY();
 
                         Marker tempMark = new Marker(map);
-                        tempMark.setPosition(new GeoPoint(lat,lon));
-                        tempMark.setAnchor(0.5f,0.5f);
+                        tempMark.setPosition(new GeoPoint(lat, lon));
+                        tempMark.setAnchor(0.5f, 0.5f);
                         tempMark.setIcon(getDrawable(R.mipmap.driver_moppet));
 
                         map.getOverlays().add(tempMark);

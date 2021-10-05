@@ -8,54 +8,66 @@ public interface driverOrBuilder extends
     com.google.protobuf.MessageOrBuilder {
 
   /**
-   * <code>string name = 1;</code>
+   * <code>string id = 1;</code>
+   * @return The id.
+   */
+  java.lang.String getId();
+  /**
+   * <code>string id = 1;</code>
+   * @return The bytes for id.
+   */
+  com.google.protobuf.ByteString
+      getIdBytes();
+
+  /**
+   * <code>string name = 2;</code>
    * @return The name.
    */
   java.lang.String getName();
   /**
-   * <code>string name = 1;</code>
+   * <code>string name = 2;</code>
    * @return The bytes for name.
    */
   com.google.protobuf.ByteString
       getNameBytes();
 
   /**
-   * <code>string lastname = 2;</code>
+   * <code>string lastname = 3;</code>
    * @return The lastname.
    */
   java.lang.String getLastname();
   /**
-   * <code>string lastname = 2;</code>
+   * <code>string lastname = 3;</code>
    * @return The bytes for lastname.
    */
   com.google.protobuf.ByteString
       getLastnameBytes();
 
   /**
-   * <code>string vehicle_no = 3;</code>
+   * <code>string vehicle_no = 4;</code>
    * @return The vehicleNo.
    */
   java.lang.String getVehicleNo();
   /**
-   * <code>string vehicle_no = 3;</code>
+   * <code>string vehicle_no = 4;</code>
    * @return The bytes for vehicleNo.
    */
   com.google.protobuf.ByteString
       getVehicleNoBytes();
 
   /**
-   * <code>uint32 balance = 4;</code>
+   * <code>uint32 balance = 5;</code>
    * @return The balance.
    */
   int getBalance();
 
   /**
-   * <code>string profile_pic = 5;</code>
+   * <code>string profile_pic = 6;</code>
    * @return The profilePic.
    */
   java.lang.String getProfilePic();
   /**
-   * <code>string profile_pic = 5;</code>
+   * <code>string profile_pic = 6;</code>
    * @return The bytes for profilePic.
    */
   com.google.protobuf.ByteString
